@@ -14,5 +14,5 @@ https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
 ### Deploy production build
 
-1) Updating the master branch automatically deploys to: rss-reader.netlify.app
+1) Updating the master branch automatically deploys to: web-rss-reader.netlify.app
 - Optionally run `npm run build` and manually deploy the output of the `build` directory to web server
