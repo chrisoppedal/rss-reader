@@ -1,26 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
 
 function App() {
+  const [stories, setStories] = useState([]);
+
   useEffect(() => {
     const feeds = [
-      {url: 'https://www.nationalreview.com/feed', title: 'National Review', isLoaded: false},
-      {url: 'https://www.westernjournal.com/admin_page/rss-masterfeed-wj-merge-feed-all-content', title: 'Western Journal', isLoaded: false
-      },
-      {url: 'http://feeds.feedburner.com/dailycaller-us', title: 'Daily Caller', isLoaded: false},
-      {url: 'https://nypost.com/feed/', title: 'NY Post', isLoaded: false},
-      {url: 'http://feeds.foxnews.com/foxnews/national', title: 'Fox National', isLoaded: false},
-      {url: 'https://www.washingtonexaminer.com/tag/news.rss', title: 'Washington Examiner', isLoaded: false},
-      {url: 'https://thehill.com/rss/syndicator/19110', title: 'The Hill', isLoaded: false},
-      {url: 'https://townhall.com/api/openaccess/news/', title: 'Townhall', isLoaded: false},
-      {url: 'https://www.hotair.com/feed', title: 'Hot Air', isLoaded: false},
-      {url: 'https://www.realclearpolitics.com/index.xml', title: 'Real Clear Politics', isLoaded: false}
-      ];
+      { url: 'https://www.nationalreview.com/feed', title: 'National Review', isLoaded: false },
+      { url: 'https://www.westernjournal.com/admin_page/rss-masterfeed-wj-merge-feed-all-content', title: 'Western Journal', isLoaded: false },
+      { url: 'http://feeds.feedburner.com/dailycaller-us', title: 'Daily Caller', isLoaded: false },
+      { url: 'https://nypost.com/feed/', title: 'NY Post', isLoaded: false },
+      { url: 'http://feeds.foxnews.com/foxnews/national', title: 'Fox National', isLoaded: false },
+      { url: 'https://www.washingtonexaminer.com/tag/news.rss', title: 'Washington Examiner', isLoaded: false },
+      { url: 'https://thehill.com/rss/syndicator/19110', title: 'The Hill', isLoaded: false },
+      { url: 'https://townhall.com/api/openaccess/news/', title: 'Townhall', isLoaded: false },
+      { url: 'https://www.hotair.com/feed', title: 'Hot Air', isLoaded: false },
+      { url: 'https://www.realclearpolitics.com/index.xml', title: 'Real Clear Politics', isLoaded: false }
+    ];
 
     const loadFeeds = async () => {
       try {
@@ -38,8 +43,11 @@ function App() {
           })
         })
         console.log('stories', stories);
+        // todo sort by most recent
+        // todo format pubDate
+        setStories(stories);
       }
-      catch(err) {
+      catch (err) {
         console.log(err);
       };
     };
@@ -47,22 +55,32 @@ function App() {
 
   }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box sx={{ bgcolor: '#F3F6F9' }}>
+      <Box sx={{ width: '100%', maxWidth: 360, marginRight: 'auto', marginLeft: 'auto' }}>
+        <nav aria-label="secondary mailbox folders">
+          <List>
+            {stories.map((story) => {
+              return (
+                <>
+                  <Card sx={{ minWidth: 275, marginTop: '20px', marginBottom: '20px' }}>
+                    <CardContent>
+                      <Typography sx={{ fontSize: 18 }} color="text.primary" gutterBottom>
+                        {story.title}
+                      </Typography>
+                      <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                        {story.link}
+                      </Typography>
+                      <Typography sx={{ fontSize: 12 }} color="text.primary" gutterBottom>
+                        {story.pubDate}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </>);
+            })}
+          </List>
+        </nav>
+      </Box>
+    </Box>
   );
 }
 
